@@ -105,4 +105,4 @@ venv.bak/
 
 # Tensorflow
 train_log/
-
+dump_log/
