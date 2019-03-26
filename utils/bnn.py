@@ -4,9 +4,19 @@ import numpy as np
 # code
 
 # binary activation function
+#def activation(x):
+#    x = tf.clip_by_value(x, -1.0, 1.0)
+#    return x + tf.stop_gradient(tf.sign(x) - x)
+
 def activation(x):
     x = tf.clip_by_value(x, -1.0, 1.0)
-    return x + tf.stop_gradient(tf.sign(x) - x)
+    noise_percentage = 0.1
+    zeros = 0*x
+    zeros = tf.reduce_sum(zeros, 0)
+    ones = zeros + 1
+    noise = tf.where(tf.random_uniform(zeros.shape) < noise_percentage, -1*ones, ones)
+    noisy_x = x*noise
+    return x + tf.stop_gradient(tf.sign(noisy_x) - x)
 
 # create weight + bias variables with update op as in BinaryNet
 def weight_bias(shape, binary=True):
